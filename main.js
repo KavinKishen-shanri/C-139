@@ -69,7 +69,7 @@ function draw(){
 
 
 
-//function reset when ball does notcame in the contact of padde
+//function reset when ball does notcame in the contact of paddle
 function reset(){
    ball.x = width/2+100,
    ball.y = height/2+100;
@@ -161,4 +161,39 @@ function paddleInCanvas(){
   if(mouseY < 0){
     mouseY =0;
   }  
+}
+
+img = "";
+wx = 0;
+wy = 0;
+
+function setup() {
+  createCanvas(650, 400);
+  video=createCapture(VIDEO);
+  video.size(600,300);
+  
+  poseNet=ml5.poseNet(video, modelloaded)
+  poseNet.on('pose', gotposes);
+}
+
+function modelloaded() {
+  console.log('Model Loaded Successfully')
+}
+
+function draw() {
+  // background("#D3D3D3");
+  if(wy<150){
+    
+  }
+  if(wy>150){
+    
+  }
+  // image(img,marioX, marioY, 40,70);
+}
+
+function gotposes(results){
+  if(results.length[0]>0){
+    wx=results[0].pose.rightwrist.x
+    wy=results[0].pose.rightwrist.y
+  }
 }
