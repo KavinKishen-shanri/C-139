@@ -23,6 +23,12 @@ var ball = {
 
 function setup(){
   var canvas =  createCanvas(700,600);
+  createCanvas(650, 400);
+  video=createCapture(VIDEO);
+  video.size(600,300);
+  
+  poseNet=ml5.poseNet(video, modelloaded)
+  poseNet.on('pose', gotposes);
 }
 
 
@@ -167,14 +173,6 @@ img = "";
 wx = 0;
 wy = 0;
 
-function setup() {
-  createCanvas(650, 400);
-  video=createCapture(VIDEO);
-  video.size(600,300);
-  
-  poseNet=ml5.poseNet(video, modelloaded)
-  poseNet.on('pose', gotposes);
-}
 
 function modelloaded() {
   console.log('Model Loaded Successfully')
