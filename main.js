@@ -21,17 +21,6 @@ var ball = {
     dy:3
 }
 
-function setup(){
-  var canvas =  createCanvas(700,600);
-  createCanvas(650, 400);
-  video=createCapture(VIDEO);
-  video.size(600,300);
-  
-  poseNet=ml5.poseNet(video, modelloaded)
-  poseNet.on('pose', gotposes);
-}
-
-
 function draw(){
 
  background(0); 
@@ -71,6 +60,12 @@ function draw(){
    
    //function move call which in very important
     move();
+
+    if(ws>0.2){
+      fill(255,0,0);
+      stroke(255,0,0);
+      circle(wx, wy, 3)
+    }
 }
 
 
@@ -172,6 +167,7 @@ function paddleInCanvas(){
 img = "";
 wx = 0;
 wy = 0;
+ws = 0;
 
 
 function modelloaded() {
@@ -189,9 +185,27 @@ function draw() {
   // image(img,marioX, marioY, 40,70);
 }
 
-function gotposes(results){
-  if(results.length[0]>0){
-    wx=results[0].pose.rightwrist.x
-    wy=results[0].pose.rightwrist.y
+function setup(){
+  var canvas =  createCanvas(700,600);
+  createCanvas(650, 400);
+  video=createCapture(VIDEO);
+  video.size(600,300);
+  
+  poseNet=ml5.poseNet(video, modelloaded)
+  poseNet.on('pose', gotPoses);
+}
+
+function gotPoses(results){
+
+  if(results.length>0){
+    console.log(results);
+    wx = results[0].pose.rightWrist.x;
+    wy = results[0].pose.rightWrist.y;
+    ws = results[0].pose.rightWrist.confidence;
   }
+}
+
+function preload() {
+  missed= loadSound("missed.wav")
+  touch= loadSound("ball_touch_paddel.wav")
 }
